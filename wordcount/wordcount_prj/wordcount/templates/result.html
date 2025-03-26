@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="." />
+    <title>document</title>
+  </head>
+  <body>
+    <h1>
+      당신이 입력한 텍스트는
+      <!--1. 몇 개의 단어로 구성되어 있는지-->
+      {{ word_count }} 단어로 구성되어 있습니다.
+    </h1>
+    <h1>입력한 텍스트:</h1>
+    <!--입력받은 전체 텍스트-->
+    {{ alltext }}
+
+    <h1>단어 카운트:</h1>
+    <!--단어 - 단어가 나온 횟수-->
+    {% for word, frequency in dictionary %} {{word}} : {{frequency}}
+    <br />
+    {% endfor %}
+
+    <!--3. result.html에 글자 수 세기 기능 추가-->
+    <h2>가장 많이 입력한 단어:</h2>
+    {% for word in most_word %} {{word}} : {{most_word_count}}회
+    <br />
+    {% endfor %}
+
+    <h2>총 글자 수:</h2>
+    {{ch_count}}
+    <br />
+
+    <h2>띄어쓰기 제외! 총 글자 수:</h2>
+    {{ch_count_noblank}}
+    <br />
+
+    <a href="{% url 'word_count' %}">다시하기</a>
+    <!--1. word_count 페이지로 돌아가기-->
+    <br />
+    <!--2. index 페이지로 돌아가기기-->
+    <a href="{% url 'index' %}">*index 페이지로*</a>
+  </body>
+</html>
