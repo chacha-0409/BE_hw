@@ -23,7 +23,7 @@ def result(request):
 
     # 3. 글자 수 세기 기능 추가
     most_word_count=max(word_dictionary.values())
-    most_word = [word for word, count in word_dictionary.items()]
+    most_word = [word for word, count in word_dictionary.items() if count == most_word_count]
     
     ch_count=len(entered_text)
     ch_count_noblank=len(entered_text.replace(" ",""))
@@ -31,7 +31,7 @@ def result(request):
     return render(request,'result.html', {'alltext':entered_text, 
     'dictionary':word_dictionary.items(), 
     'word_count':word_count, # 1. 단어 개수 리턴
-    'most_word':most_word, # 3. 글자 수 세기기
+    'most_word':most_word, # 3. 글자 수 새기
     'most_word_count':most_word_count,
     'ch_count_noblank':ch_count_noblank,
     'ch_count':ch_count,
