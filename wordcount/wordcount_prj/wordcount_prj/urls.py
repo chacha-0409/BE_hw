@@ -13,7 +13,8 @@ Class-based views
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
+
+
 from django.contrib import admin
 from django.urls import path
 from wordcount import views
@@ -24,4 +25,13 @@ urlpatterns = [
     path('word-count/', views.word_count, name='word_count'),
     path('result/', views.result, name='result'),
     path('hello/', views.hello, name='hello'),
+]
+"""
+
+from django.contrib import admin
+from django.urls import path, include #include로 url관리
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('wordcount/', include('wordcount.urls')),
 ]

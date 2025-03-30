@@ -35,10 +35,10 @@
     {{ch_count_noblank}}
     <br />
 
-    <a href="{% url 'word_count' %}">다시하기</a>
+    <a href="{% url 'wordcount:word_count' %}">다시하기</a>
     <!--1. word_count 페이지로 돌아가기-->
     <br />
     <!--2. index 페이지로 돌아가기기-->
-    <a href="{% url 'index' %}">*index 페이지로*</a>
+    <a href="{% url 'wordcount:index' %}">*index 페이지로*</a>
   </body>
 </html>

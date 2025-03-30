@@ -8,12 +8,12 @@
   <body>
     <h1>Word Count</h1>
 
-    <form action="{% url 'result' %}">
+    <form action="{% url 'wordcount:result' %}">
       <!--템플릿 태그-->
       <textarea name="fulltext" cols="40" rows="20">text</textarea>
       <br />
       <input type="submit" value="Count!" />
     </form>
-    <a href="{% url 'index' %}">*index페이지로*</a>
+    <a href="{% url 'wordcount:index' %}">*index페이지로*</a>
   </body>
 </html>
