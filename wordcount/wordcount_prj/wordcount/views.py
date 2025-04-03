@@ -41,5 +41,5 @@ def result(request):
 
 def hello(request):
     name=request.GET['name']
-    return render(request,'hello.html',{'name':name, 'month':month, 'year':year, 'day':day})
+    return render(request,'hello.html',{'name':name})
     
