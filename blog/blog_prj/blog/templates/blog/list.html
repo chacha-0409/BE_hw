@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  </head>
-  <body>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        {{ request.user.username }}님 환영합니다. <br/>
+        <a href="{% url 'accounts:logout' %}">로그아웃</a>
+        <a href="{% url 'accounts:mypage' %}">마이페이지</a>
+    {% else %}
+        <a href="{% url 'accounts:login' %}">로그인</a>
+        <a href="{% url 'accounts:signup' %}">회원가입</a>
+    {% endif %}
+    <br />
+    
     <a href="{% url 'blog:create' %}">글 작성하기</a>
-    <hr />
+    <hr>
 
     {% for post in posts %}
-    <h2><a href="{% url 'blog:detail' post.id %}">{{post.title}}</a></h2>
-    <h2>{{post.content}}</h2>
-    <h2>{{post.create_at}}</h2>
-    {% empty %} 작성된 글이 없습니다. {% endfor %}
-  </body>
+        <h2><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a></h2>
+        <p>{{ post.content }}</p>
+        <p>{{ post.created_at }}</p>
+    {% empty %}
+        작성된 글이 없습니다.
+    {% endfor %}
+    
+</body>
 </html>
