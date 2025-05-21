@@ -9,7 +9,7 @@ def signup(request):
         form = SignUpForm()
         return render(request, 'accounts/signup.html', {'form': form})
 
-    form = SignUpForm(request.POST)
+    form = SignUpForm(request.POST) # 모델과 연결된 ModelForm 기반의 사용자 정의 폼
     if form.is_valid():
         form.save()
         return redirect('accounts:login')
@@ -20,9 +20,9 @@ def login(request):
     if request.method == 'GET':
         return render(request, 'accounts/login.html', {'form':AuthenticationForm()})
 
-    form = AuthenticationForm(request, request.POST)
+    form = AuthenticationForm(request, request.POST) # Django에서 제공하는 로그인 폼
     if form.is_valid():
-        auth_login(request, form.user_cache)
+        auth_login(request, form.user_cache) 
         return redirect('posts:main')
 
     return render(request, 'accounts/login.html', {'form': form})
@@ -37,3 +37,7 @@ def mypage(request):
 
 def user_info(request):
     return render(request, 'accounts/user_info.html')
+
+def myblog(request):
+    posts=request.user.posts.all().order_by('-id')
+    return render(request, 'account/myblog.html', {'posts':posts})
