@@ -7,10 +7,8 @@
 </head>
 <body>
     <h2>마이페이지</h2>
-    <a href="{% url 'accounts:user-info' %}">내 정보 보기</a><br/>
-    <a href="{% url 'accounts:myblog' %}">내가 작성한 블로그 보기</a>
-
     <a href="{% url 'posts:main' %}">메인페이지</a><br>
     <a href="{% url 'accounts:user-info' %}">내 정보 보기</a><br>
+    <a href="{% url 'accounts:mypost' %}">내가 작성한 글</a>
 </body>
 </html>

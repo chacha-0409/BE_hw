@@ -12,15 +12,15 @@ def signup(request):
     form=SignUpForm(request.POST)
     if form.is_valid():
         form.save()
-        return redirect('accounts:login') # name 잘못 써서 오류2
+        return redirect('accounts:login')
     else:
         return render(request, 'accounts/signup.html',{'form':form})
 
 def login(request):
-    if request.method=='GET': # forms로 잘못 써서 오류1
+    if request.method=='GET':
         return render(request, 'accounts/login.html', {'form':AuthenticationForm()})
-
-    form=AuthenticationForm(request, request.POST) # 상속받음음
+#                          요청 정보, 입력 정보
+    form=AuthenticationForm(request, request.POST) # 상속받음
     if form.is_valid():
         auth_login(request, form.user_cache)
         return redirect('blog:list')

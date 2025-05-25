@@ -9,7 +9,7 @@ class Post(models.Model): #상속
     author=models.ForeignKey(to=User, on_delete=models.CASCADE, related_name='posts')
 
     def __str__(self): #객체를 호출하면 자동 실행
-        return f'[{self.id}] self.title'
+        return f'[{self.id}] {self.title}'
 
 
 class Comment(models.Model): # 다대일-댓글
