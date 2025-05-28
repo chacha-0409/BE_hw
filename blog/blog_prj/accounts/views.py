@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login # alias) 설정
 from django.contrib.auth import logout as auth_logout
+from blog.models import Post
 
 def signup(request):
     if request.method=='GET':
@@ -41,3 +42,8 @@ def myblog(request):
 #정참조    posts = request.user.posts.all().order_by('-id')
     posts = Post.objects.filter(author=request.user).order_by('-id')
     return render(request, 'accounts/myblog.html', {'posts': posts})
+
+def mylike(request):
+    liked_posts = request.user.like_posts.all().order_by('-id')
+    return render(request, 'accounts/mylike.html', {'liked_posts':liked_posts})
+    

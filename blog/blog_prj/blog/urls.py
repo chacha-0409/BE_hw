@@ -12,4 +12,5 @@ urlpatterns=[
     path('delete/<int:id>/', delete, name='delete'),
     path('create-comment/<int:post_id>/', create_comment, name='create-comment'),
     # post_id 대신 id 써서 url 매핑? 에러
+    path('like/<int:post_id>', like, name='like')
 ]

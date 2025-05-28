@@ -10,7 +10,21 @@
     <p>내용: {{ post.content }}</p>
     <p>작성일: {{ post.create_at }}</p>
     <p>작성자: {{ post.author.nickname }}</p>
-    
+    <p>좋아요: {{ post.like.count }}
+      {% if request.user in post.like.all %}
+      <!--작성자가 좋아요 눌렀는지 검사-->
+      <a href="{% url 'blog:like' post.id %}">좋아요 취소</a>
+      {% else %}
+      <a href="{% url 'blog:like' post.id %}">좋아요</a>
+    {% endif %}
+    </p>
+    <p>카테고리:
+      {% for category in post.category.all %}
+      [{{ category.name }}]
+      {% empty %}
+      선택한 카테고리 없음
+      {% endfor %}
+    </p>
 
     {% if request.user == post.author %}
     <a href="{% url 'blog:update' post.id %}">수정하기</a>
