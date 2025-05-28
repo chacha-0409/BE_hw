@@ -8,8 +8,11 @@ def list(request):
     category_id=request.GET.get('category')
     
     if category_id:
-        category=get_object_or_404(Category, id=category_id)
-        posts=category.posts.all().order_by('-id')
+        category=get_object_or_404(Category, id=category_id) # 용자가 URL 쿼리로 넘긴 category_id 값을 기반으로, 해당하는 Category 모델의 객체가 존재하면 가져옴
+        # 정참조
+        # posts=category.posts.all().order_by('-id')
+        # filter 메서드
+        posts=Post.objects.filter(category=category).order_by('-id') # 필드=객체
     else:
         posts=Post.objects.all().order_by('-id')
     
@@ -74,8 +77,17 @@ def create_comment(request, post_id):
 def like(request, post_id):
     post=get_object_or_404(Post, id=post_id)
     user=request.user
+    ''' 정참조
     if user in post.like.all(): # 좋아요 있으면
         post.like.remove(user)
     else:
         post.like.add(user)
     return redirect('blog:detail', post_id)
+    '''
+    # 역참조
+    if post in user.like_posts.all():
+        post.like.remove(user)
+    else:
+        post.like.add(user)
+    return redirect('blog:detail', post_id)
+    
