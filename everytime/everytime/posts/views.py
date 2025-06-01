@@ -3,12 +3,22 @@ from .models import *
 from django.contrib.auth.decorators import login_required
 
 def main(request):
-    posts = Post.objects.all().order_by('-id')
+    categories = Category.objects.all()
+    category_posts = {}
 
+    for category in categories:
+        posts = category.posts.order_by('-created_at')[0:4]
+        category_posts[category] = posts
+
+    return render(request, 'posts/main.html', {'categories':categories, 'category_posts':category_posts})
+
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    
     if request.method == "POST":
         title = request.POST.get('title')
         content = request.POST.get('content')
-        is_anonymous = request.POST.get('is_anonymous') == 'on'
+        is_anonymous = request.POST.get('is_anonymous') == 'on' #
 
         post = Post.objects.create(
             title = title,
@@ -16,9 +26,14 @@ def main(request):
             is_anonymous = is_anonymous,
             author=request.user
         )
-        return redirect('posts:main')
+        PostCategory.objects.create(
+            post = post,
+            category = category
+        )
+        return redirect('posts:category', slug=slug)
 
-    return render(request, 'posts/main.html', {'posts' : posts})
+    posts = category.posts.all().order_by('-created_at')
+    return render(request, 'posts/category.html', {'category': category, 'posts':posts})
 
 def detail(request, id):
     post = get_object_or_404(Post, id=id)
@@ -51,13 +66,36 @@ def update(request, id):
         return redirect('posts:detail', id)
     return render(request, 'posts/update.html', {'post':post})
 
-def delete(reqeust, id):
+def delete(request, id):
     post = get_object_or_404(Post, id=id)
     post.delete()
     return redirect('posts:main')
 
-def delete_comment(reqeust, id):
+def delete_comment(request, id):
     comment = get_object_or_404(Comment, id=id)
     comment.delete()
     post_id= comment.post.id
+    return redirect('posts:detail', post_id)
+
+
+def like(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
+
+        if user in post.like.all():
+            post.like.remove(user)
+        else:
+            post.like.add(user)
+    return redirect('posts:detail', post_id)
+
+def scrap(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        user = request.user
+
+        if user in post.scrap.all():
+            post.scrap.remove(user)
+        else:
+            post.scrap.add(user)
     return redirect('posts:detail', post_id)

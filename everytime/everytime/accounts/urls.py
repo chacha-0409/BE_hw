@@ -11,4 +11,5 @@ urlpatterns = [
     path('user-info', user_info, name='user-info'),
     path('myblog/', myblog, name='myblog'),
     path('mypost/', mypost, name='mypost'),
+    path('myscrap/', myscrap, name='myscrap'),
 ]
