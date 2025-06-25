@@ -33,6 +33,12 @@ def logout(request):
     return redirect('blog:list')
 
 def user_info(request):
+    if request.method=="POST":
+        profile_image = request.FILES.get('profile_image')
+        if profile_image:
+            request.user.profile_image.delete()
+            request.user.profile_image = profile_image
+            request.user.save()
     return render(request, 'accounts/user_info.html')
 
 def mypage(request):

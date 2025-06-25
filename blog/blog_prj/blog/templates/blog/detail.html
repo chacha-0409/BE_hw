@@ -10,6 +10,16 @@
     <p>내용: {{ post.content }}</p>
     <p>작성일: {{ post.create_at }}</p>
     <p>작성자: {{ post.author.nickname }}</p>
+
+    {% if post.image %}
+      <img width="320" height="240" src="{{post.image.url}}">
+    {% endif %}
+    {% if post.video %}
+      <video width="320" height="240" controls>
+        <source src="{{post.video.url}}" type="video/mp4">
+      </video>
+    {% endif %}
+
     <p>좋아요: {{ post.like.count }}
       {% if request.user in post.like.all %}
       <!--작성자가 좋아요 눌렀는지 검사-->
