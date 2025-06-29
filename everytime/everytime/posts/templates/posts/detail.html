@@ -14,20 +14,44 @@
     {% endif %}
 
     <h3>{{post.title}}</h3><br>
-    <h4>{{ post.content }}</h4><br><br>
+    <h4>{{ post.content }}</h4><br>
     <h4>{{ post.created_at }}</h4>
+    {% if post.image %}
+        <img width="320" height="240" src="{{ post.image.url }}">
+    {% endif %}
+    {% if post.video %}
+        <video width="320" height="240" controls>
+            <source src="{{ post.video.url }}" type="video/mp4">
+        </video>
+    {% endif %}
     {% if post.is_anonymous %}
         <h5>익명</h5>
     {% else %}
         <h5>{{ post.author }}</h5>
     {% endif %} 
-
     {% if post.author == request.user %}
         <a href="{% url 'posts:update' post.id %}">수정하기</a>
         <a href="{% url 'posts:delete' post.id %}">삭제하기</a>
     {% endif %}
-
+    <p>공감: {{post.like.count}}개 스크랩: {{post.scrap.count}}개</p>
+    <form method="POST" action="{% url 'posts:like' post.id%}">
+        {% csrf_token %}
+        {% if request.user in post.like.all %}
+            <button type="submit">공감 취소</button>
+        {% else %}
+            <button type="submit">공감하기</button>
+        {% endif %}
+    </form>
+    <form method="POST" action="{% url 'posts:scrap' post.id%}">
+        {% csrf_token %}
+        {% if request.user in post.scrap.all %}
+            <button type="submit">스크랩 취소</button>
+        {% else %}
+            <button type="submit">스크랩하기</button>
+        {% endif %}
+    </form>
     <hr>
+
     <h3>댓글</h3>
     {% for comment in post.comments.all %}
       <p>

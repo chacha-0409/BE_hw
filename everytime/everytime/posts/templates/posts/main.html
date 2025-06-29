@@ -6,29 +6,35 @@
     <title>Document</title>
 </head>
 <body>
+    {% for category in categories %}
+        <a href="{% url 'posts:category' slug=category.slug %}">{{ category.name }}</a>
+    {% endfor %}<br><br>
+
+
     {% if request.user.is_authenticated %}
-        nickname: {{request.user.nickname}} <br><br>
-        <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        <a href="{% url 'accounts:mypage' %}">마이페이지</a><hr>
-        <form method="POST" action="{% url 'posts:main' %}">
-            {% csrf_token %}
-            <input type="text" name="title" placeholder="제목 입력"><br>
-            <textarea name="content" placeholder="본문 입력"></textarea><br>
-            <input type="checkbox" name="is_anonymous">익명
-            <button type="submit">작성 완료</button>
-        </form>   
+        nickname: {{request.user.nickname}} <br>
+        <a href="{% url 'accounts:mypage' %}">마이페이지</a> 
+        <a href="{% url 'accounts:logout' %}">로그아웃</a> 
+        <hr><br> 
+
     {% else %}
+        <br>
         <a href="{% url 'accounts:login' %}">로그인</a> 
         <a href="{% url 'accounts:signup' %}">회원가입</a> 
     {% endif %}
-    <hr>
-    {% for post in posts %}
-        <h2><a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a></h2>
-        <p>{{ post.content }}</p>
-        <p>{{ post.created_at }}</p>
-        <hr>
+
+    {% for category, posts in category_posts.items %}
+        <h2><a href="{% url 'posts:category' slug=category.slug %}"> {{ category.name }} </a></h2>
+            {% for post in posts %}
+                <a href="{% url 'posts:detail' post.id %}">{{ post.title }}</a>
+                <br><br>
+            {% empty %}
+                글이 없습니다.
+            {% endfor %}
+            <hr>
     {% empty %}
-        글이 없습니다
+        글이 없습니다.
     {% endfor %}
+
 </body>
 </html>
